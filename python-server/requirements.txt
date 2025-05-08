@@ -1,0 +1,11 @@
+fastapi
+flask
+uvicorn
+llama-cpp-python
+flask-cors
+requests
+numpy
+scikit-learn
+jsonify
+transformers
+torch

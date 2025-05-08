@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  # mongo:
+  #   image: mongo:6
+  #   restart: always
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     - mongo-data:/data/db
+
+  backend:
+    build: ./backend
+    ports:
+      - "5001:5001"
+    environment:
+      - MONGODB_URI=mongodb://host.docker.internal:27017/chatgpt-clone
+    # depends_on:
+      # - mongo
+
+  # python-server:
+  #   build: ./python-server
+  #   ports:
+  #     - "5002:5002"
+  #   environment:
+  #     - OLLAMA_HOST=host.docker.internal 
+  #     - OLLAMA_PORT=11434
+  #     - OLLAMA_MODEL=llama2
+  #   depends_on:
+  #     - backend
+  #     - ollama
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_HOST=http://localhost:5001/api/
+      - REACT_APP_CHAT_API=http://localhost:5002/api/chat
+    depends_on:
+      - backend
+      # - python-server
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    # Optionally preload a model:
+    # command: ["ollama", "run", "llama2"]
+
+volumes:
+  # mongo-data:
+  ollama-data:
