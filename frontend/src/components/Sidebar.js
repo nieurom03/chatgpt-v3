@@ -27,16 +27,19 @@ const Sidebar = ({ history, onSelect,selected ,onDelete}) => {
       </div>
       <div className="flex-1 space-y-1">
       {history && history?.today?.length > 0 && 
-         <GrouyName title="Today" selected={selected} onSelect={onSelect} data={history?.today} onDelete={onDelete}/>
+         <GrouyName title="Hôm nay" selected={selected} onSelect={onSelect} data={history?.today} onDelete={onDelete}/>
       }
        {history && history?.yesterday?.length > 0 && 
-         <GrouyName title="Yesterday" selected={selected} onSelect={onSelect} data={history?.yesterday} onDelete={onDelete}/>
+         <GrouyName title="Hôm qua" selected={selected} onSelect={onSelect} data={history?.yesterday} onDelete={onDelete}/>
       }
       {history && history?.lastWeek?.length > 0 && 
-         <GrouyName title="Last week" selected={selected} onSelect={onSelect} data={history?.lastWeek} onDelete={onDelete}/>
+         <GrouyName title="Tuần trước" selected={selected} onSelect={onSelect} data={history?.lastWeek} onDelete={onDelete}/>
       }
        {history && history?.lastMonth?.length > 0 && 
-         <GrouyName title="Last month" selected={selected} onSelect={onSelect} data={history?.lastMonth} onDelete={onDelete}/>
+         <GrouyName title="Tháng trước" selected={selected} onSelect={onSelect} data={history?.lastMonth} onDelete={onDelete}/>
+      }
+       {history && history?.older?.length > 0 && 
+         <GrouyName title="Cũ hơn" selected={selected} onSelect={onSelect} data={history?.older} onDelete={onDelete}/>
       }
       </div>
     </div>
