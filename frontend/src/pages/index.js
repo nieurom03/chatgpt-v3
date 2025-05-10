@@ -154,10 +154,10 @@ function App() {
     <div>
       
       <div className="flex flex-row h-screen">
-        <div className="basis-1/3 shadow-2xl">
+        <div className="basis-1/4 shadow-2xl">
             <Sidebar history={history} onSelect={setSelected} selected={selected} onDelete={handleDelete}/>
         </div>
-        <div className="basis-2/3 ">
+        <div className="basis-3/4 ">
             <Container 
               messages={messages}  
               onSend={sendMessage} 
