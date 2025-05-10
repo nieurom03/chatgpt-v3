@@ -1,11 +1,8 @@
 import React,{useState} from 'react'
+import GrouyName from './History/GrouyName';
 
 const Sidebar = ({ history, onSelect,selected ,onDelete}) => {
-  const [openMenuId, setOpenMenuId] = useState(null);
-
-  const toggleMenu = (id) => {
-    setOpenMenuId(openMenuId === id ? null : id);
-  };
+   
   return (
     <div className="h-screen bg-white flex flex-col p-4 overflow-y-auto">
       <div className='flex justify-between items-center '>
@@ -29,19 +26,18 @@ const Sidebar = ({ history, onSelect,selected ,onDelete}) => {
         </div>
       </div>
       <div className="flex-1 space-y-1">
-        {history?.map((conv, index) => (
-          <div>
-            <p
-              key={index}
-              onClick={() => onSelect(conv._id)}
-              className={`w-full rounded-lg text-left hover:bg-gray-200 hover:drop-shadow-2xl
-                 p-2 cursor-pointer ${selected === conv._id ? 'bg-gray-200 hover:drop-shadow-2xl' : ''}`}
-            >
-              {conv.title || "New Conversation"}...
-            </p>
-            
-          </div>
-        ))}
+      {history && history?.today?.length > 0 && 
+         <GrouyName title="Today" selected={selected} onSelect={onSelect} data={history?.today} onDelete={onDelete}/>
+      }
+       {history && history?.yesterday?.length > 0 && 
+         <GrouyName title="Yesterday" selected={selected} onSelect={onSelect} data={history?.yesterday} onDelete={onDelete}/>
+      }
+      {history && history?.lastWeek?.length > 0 && 
+         <GrouyName title="Last week" selected={selected} onSelect={onSelect} data={history?.lastWeek} onDelete={onDelete}/>
+      }
+       {history && history?.lastMonth?.length > 0 && 
+         <GrouyName title="Last month" selected={selected} onSelect={onSelect} data={history?.lastMonth} onDelete={onDelete}/>
+      }
       </div>
     </div>
   )

@@ -7,13 +7,13 @@ import {  useNavigate } from 'react-router-dom';
 
 
 function App() {
-  const [history, setHistory] = useState([])
+  const [history, setHistory] = useState({})
   const [messages, setMessages] = useState([]);
   const [selected, setSelected] = useState(null);
   const [isSending, setIsSending] = useState(false)
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
-  
+
   useEffect(() => {
 
     if(!user){
@@ -26,12 +26,9 @@ function App() {
         const response = await conversationService.getAll(
           JSON.stringify({ userId: user.userId})
         );
-        const data = response?.data || []
+        const data = response?.data || {}
+
         setHistory(data);
-
-        const found = data?.find(h => h._id === selected);
-        setMessages(found?.messages || []);
-
       } catch (error) {
         console.error('Error fetching all messages:', error);
       }
@@ -39,6 +36,22 @@ function App() {
     fecthAllMessage();
   }, [selected]);
 
+  useEffect(() =>{
+    // find message by id
+    
+    const findById = async() => {
+      try {
+        const data = await conversationService.getById(selected);
+        setMessages(data?.data.messages || []);
+      } catch (error) {
+        console.error('Error fetching messages by id:', error);
+      }
+    }
+    if(selected){
+      findById();
+    }
+
+  },[selected])
   const sendStreamMessage = async (userInput) => {
     setMessages(prev => [...prev, { role: 'user', content: userInput }]);
     
@@ -115,10 +128,11 @@ function App() {
         title = titleData.content?.trim() || 'New Conversation';
       }
       // Lưu tin nhắn AI vào DB
+     
       const res = await conversationService.addConversaction(JSON.stringify({
         title: title,
         id: selected,
-        userId: user?._id,
+        userId: user?.userId,
         messages: [userMessage, aiMessage]
       }));
       
@@ -130,12 +144,18 @@ function App() {
     }
   };
 
+  const handleDelete = async (id) => {
+    await conversationService.deleteConversaction(id);
+    setSelected(null);
+    setMessages(null);
+  }
+
   return (
     <div>
       
       <div className="flex flex-row h-screen">
         <div className="basis-1/3 shadow-2xl">
-            <Sidebar history={history} onSelect={setSelected} selected={selected} />
+            <Sidebar history={history} onSelect={setSelected} selected={selected} onDelete={handleDelete}/>
         </div>
         <div className="basis-2/3 ">
             <Container 

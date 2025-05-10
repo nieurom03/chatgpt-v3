@@ -15,7 +15,7 @@ const conversactionService = {
         return requests.post('/conversation/update',body);
     },
     deleteConversaction: async(id) => {
-        return requests.delete(`/conversation/${id}`);
+        return requests.post(`/conversation/delete/${id}`);
     },
     feedbackMessage: async(body) =>{
         return requests.post(`/conversation/feedback`, body);

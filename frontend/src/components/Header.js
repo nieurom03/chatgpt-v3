@@ -1,22 +1,38 @@
-import React,{useState, useEffect} from "react"
+import React,{useState, useRef, useEffect } from "react"
 import { useNavigate} from "react-router-dom";
+import ActionMenu from "./ActionMenu";
 
 const Header = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
+    const [open, setOpen] = useState(false);
+    const menuRef = useRef(null);
+
+
+    // Đóng menu khi click ra ngoài
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target )) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
 
     const handleLogout = () => {
+        navigate('/login');
         localStorage.removeItem('user');
-        navigate('/');
       };
 
-      const handleLogin = () => {
-        navigate('/login')
-      }
+    //   const handleLogin = () => {
+    //     navigate('/login')
+    //   }
 
     return (
     <>
-        <div className="flex items-center justify-between px-4 py-3 bg-white border-b shadow-sm">
+        <div className="flex items-center justify-between px-4 py-3 bg-white border-b shadow-sm" >
             {/* Left */}
             <div className="text-lg font-semibold text-gray-800 w-1/4">
             🧠 Ollama 3
@@ -39,23 +55,7 @@ const Header = () => {
             {/* Right */}
             <div className="flex text-sm text-gray-500 text-right w-1/4 justify-end space-x-1">
                 {/* <div className="w-20 h-10">🧠 Ollama 3</div> */}
-                {!user && (
-                    <div>
-                      <button 
-                        className="hover:bg-gray-300 rounded-2xl bg-gray-100 shadow-md w-20 h-10 hover:text-white" 
-                        onClick={handleLogin}>Log in</button>
-
-                     {/* <button 
-                        className="hover:bg-gray-300 rounded-2xl bg-blue-100 shadow-md w-20 h-10">Sign up</button> */}
-                    </div>
-                )}
-                {user && (
-                        <form class="flex items-center space-x-6">
-                            <div class="shrink-0">
-                                <img class="h-10 w-10 object-cover rounded-full" src={user?.picture} alt="Current profile photo" />
-                            </div>
-                        </form>
-                )}
+               <ActionMenu user={user} handleLogout={handleLogout} />
             </div>
         </div>
     </>

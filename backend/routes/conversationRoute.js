@@ -5,7 +5,7 @@ const  {getAll, addNew, feedbackMessage, deleteConversation, getConversactionByI
  router.post('/list', getAll);
  router.get('/:id', getConversactionById);
  router.post('/add', addNew);
- router.delete('/:id',deleteConversation);
+ router.post('/delete/:id',deleteConversation);
  router.post('/feedback',feedbackMessage);
 
 module.exports = router;

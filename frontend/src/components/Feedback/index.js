@@ -4,10 +4,11 @@ import Dislike from "./Dislike";
 
 const Feedback = ({msg,handleFeedback}) => {
     const [feedback, setFeedback] = useState("")
+    console.log('feeback', feedback);
     
-    const onFeedback = (id, feedback) => {
-        handleFeedback(id, feedback);
-        setFeedback(feedback);
+    const onFeedback = (id, content) => {
+        handleFeedback(id, content);
+        setFeedback(content);
     }
 
     useEffect (() => {
@@ -15,24 +16,22 @@ const Feedback = ({msg,handleFeedback}) => {
     },[])
     return (
         <>
-        {msg.role === 'bot' && !feedback && (
-            <div className="flex">
-                
-                 <Like  onFeedback={onFeedback} id={msg._id} />
-                 <Dislike  onFeedback={onFeedback} id={msg._id} />
-                 
-            </div>
-            )}
-            {feedback ==='good' && (
-                <div className='' title="good">
-                 <Like  />
+            {msg.role === 'bot' && !feedback && (
+                <div className="flex">
+                    <Like  onFeedback={onFeedback} id={msg._id} isFeedback={false}/>
+                    <Dislike  onFeedback={onFeedback} id={msg._id} isFeedback={false}/>
                 </div>
             )}
-            {feedback ==='bad' && (
+            {msg.role === 'bot' && feedback ==='good' && (
+                <div className='' title="good">
+                 <Like isFeedback={true}  />
+                </div>
+            )}
+            {msg.role === 'bot' && feedback ==='bad' && (
                 <div className='' title="bad">
-                    <Dislike />
-            </div>
-        )}
+                    <Dislike isFeedback={true}/>
+                </div>
+            )}
         </>
     )
 }
