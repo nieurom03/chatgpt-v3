@@ -1,5 +1,5 @@
 const Dislike = ({onFeedback,id,isFeedback}) => {
-    console.log('Dislike',isFeedback )
+
     return (
         <>
         {!isFeedback && (

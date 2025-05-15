@@ -1,5 +1,5 @@
 const Like = ({onFeedback,id,isFeedback}) => {
-    console.log('Like',isFeedback )
+
     return (
         <>
          {!isFeedback && (

@@ -4,7 +4,7 @@ import Dislike from "./Dislike";
 
 const Feedback = ({msg,handleFeedback}) => {
     const [feedback, setFeedback] = useState("")
-    console.log('feeback', feedback);
+
     
     const onFeedback = (id, content) => {
         handleFeedback(id, content);
