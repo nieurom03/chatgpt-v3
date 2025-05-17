@@ -11,7 +11,7 @@ const  Login = () => {
         body: JSON.stringify({ credential: credentialResponse.credential }),
       });
       const data = await res.json();
-      // console.log('login',data)
+      console.log('login',data)
       if (data.success) {
         // 👉 Lưu thông tin người dùng vào localStorage
             localStorage.setItem('user', JSON.stringify(data.user));
